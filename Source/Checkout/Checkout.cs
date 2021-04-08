@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Checkout
 {
@@ -23,7 +24,7 @@ namespace Checkout
 
         public int CalculateTotalPrice()
         {
-            throw new NotImplementedException();
+            return ScannedProductList.Sum(p => p.UnitPrice);
         }
     }
 }
