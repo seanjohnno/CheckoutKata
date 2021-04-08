@@ -29,6 +29,16 @@ namespace CheckoutTests
             quantitySpecialOffer.DoesSpecialOfferApply(scannedItems).Should().BeTrue();
         }
 
+        [Fact]
+        public void DoesNotApplyWhenQuantityDoesNotMatch()
+        {
+            var quantitySpecialOffer = new QuantitySpecialOffer(BiscuitSKU, QuantityOf2, UnitPriceOf45);
+
+            var scannedItems = CreateScannedItemList(BiscuitProduct);
+
+            quantitySpecialOffer.DoesSpecialOfferApply(scannedItems).Should().BeFalse();
+        }
+
         private List<Product> CreateScannedItemList(params Product[] products)
         {
             return products.ToList();
