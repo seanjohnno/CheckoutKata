@@ -17,22 +17,6 @@ namespace CheckoutTests
         private static readonly QuantitySpecialOffer biscuitCountOf2SpecialOffer = new QuantitySpecialOffer(BiscuitSKU, QuantityOf2, SpecialOfferPriceOf45);
 
         [Fact]
-        public void ApplyWhenQuantityAndProductMatches()
-        {
-            var scannedItems = CreateScannedItemList(BiscuitProduct, BiscuitProduct);
-
-            biscuitCountOf2SpecialOffer.DoesSpecialOfferApply(scannedItems).Should().BeTrue();
-        }
-
-        [Fact]
-        public void DoesNotApplyWhenQuantityDoesNotMatch()
-        {
-            var scannedItems = CreateScannedItemList(BiscuitProduct);
-
-            biscuitCountOf2SpecialOffer.DoesSpecialOfferApply(scannedItems).Should().BeFalse();
-        }
-
-        [Fact]
         public void ReturnCorrectAppliedDiscount()
         {
             var scannedItems = CreateScannedItemList(BiscuitProduct, BiscuitProduct);

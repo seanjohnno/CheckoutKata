@@ -27,15 +27,12 @@ namespace Checkout
         public int CalculateTotalPrice()
         {
             var offerThatApplies = _specialOffers
-                .FirstOrDefault(o => o.DoesSpecialOfferApply(ScannedProductList));
+                .Select(o => o.ApplySpecialOffer(ScannedProductList))
+                .FirstOrDefault();
 
-            if(offerThatApplies != null)
-            {
-                var appliedOffer = offerThatApplies.ApplySpecialOffer(ScannedProductList);
-                return appliedOffer.OfferPrice + appliedOffer.ProductsWithoutOffersApplied.Sum(p => p.UnitPrice);
-            }
-
-            return ScannedProductList.Sum(p => p.UnitPrice);
+            return offerThatApplies != null ?
+                offerThatApplies.OfferPrice + offerThatApplies.ProductsWithoutOffersApplied.Sum(p => p.UnitPrice) :
+                ScannedProductList.Sum(p => p.UnitPrice);
         }
     }
 }

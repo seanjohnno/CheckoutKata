@@ -17,11 +17,6 @@ namespace Checkout.SpecialOffers
             _offerPrice = offerPrice;
         }
 
-        public bool DoesSpecialOfferApply(List<Product> scannedProducts)
-        {
-            return scannedProducts.Where(p => p.SKU == _productSKU).Count() >= _appliedAtQuantity;
-        }
-
         public AppliedOffer ApplySpecialOffer(List<Product> scannedItems)
         {
             if(DoesSpecialOfferApply(scannedItems))
@@ -35,6 +30,11 @@ namespace Checkout.SpecialOffers
             }
 
             return null;
+        }
+
+        private bool DoesSpecialOfferApply(List<Product> scannedProducts)
+        {
+            return scannedProducts.Where(p => p.SKU == _productSKU).Count() >= _appliedAtQuantity;
         }
 
         private static List<Product> RemoveProductCount(List<Product> productsInOffer, int quantity)
