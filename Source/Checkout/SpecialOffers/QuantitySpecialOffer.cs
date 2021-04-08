@@ -24,7 +24,26 @@ namespace Checkout.SpecialOffers
 
         public AppliedOffer ApplySpecialOffer(List<Product> scannedItems)
         {
-            throw new NotImplementedException();
+            if(DoesSpecialOfferApply(scannedItems))
+            {
+                var productsNotInOffer = scannedItems.Where(p => p.SKU != _productSKU);
+                var productsWithSameSKUAsOffer = scannedItems.Where(p => p.SKU == _productSKU).ToList();
+                var productsWithSameSKUAfterQuantityRemoved = RemoveProductCount(productsWithSameSKUAsOffer, _appliedAtQuantity);
+
+                var allPoductsWithoutOfferApplied = productsNotInOffer.Concat(productsWithSameSKUAfterQuantityRemoved).ToList();
+                return new AppliedOffer(_offerPrice, allPoductsWithoutOfferApplied);
+            }
+
+            return null;
+        }
+
+        private static List<Product> RemoveProductCount(List<Product> productsInOffer, int quantity)
+        {
+            if (productsInOffer.Count >= quantity)
+            {
+                productsInOffer.RemoveRange(0, quantity);
+            }
+            return productsInOffer;
         }
     }
 }
