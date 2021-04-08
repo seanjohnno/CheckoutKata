@@ -1,5 +1,7 @@
 using Checkout;
+using Checkout.SpecialOffers;
 using FluentAssertions;
+using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
@@ -11,12 +13,19 @@ namespace CheckoutTests
         private const int B15UnitPrice = 30;
         private const int B15QuantityOf2SpecialOfferPrice = 45;
 
+        private static readonly List<ISpecialOffer> SpecialOffers = new List<ISpecialOffer>
+        {
+            new QuantitySpecialOffer("B15", 2, 45)
+        };
+            
+
         private readonly Checkout.Checkout _checkout;
+
 
         public CheckoutShould()
         {
             var productRepository = new ProductRepository();
-            _checkout = new Checkout.Checkout(productRepository);
+            _checkout = new Checkout.Checkout(productRepository, SpecialOffers);
         }
 
         [Fact]
