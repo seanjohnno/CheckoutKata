@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Checkout
 {
     public class Checkout
     {
-        private readonly ProductRepository productRepository;
+        private readonly ProductRepository _productRepository;
 
         public Checkout(ProductRepository productRepository)
         {
             ScannedProductList = new List<Product>();
-            this.productRepository = productRepository;
+            _productRepository = productRepository;
         }
 
         public void ScanProduct(string sku)
         {
-            var product = productRepository.GetProductBySKU(sku);
+            var product = _productRepository.GetProductBySKU(sku);
             ScannedProductList.Add(product);
         }
 
