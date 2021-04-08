@@ -11,31 +11,39 @@ namespace CheckoutTests
     {
         private const string BiscuitSKU = "B15";
         private const int QuantityOf2 = 2;
-        private const int UnitPriceOf45 = 45;
+        private const int SpecialOfferPriceOf45 = 45;
 
         private static readonly Product BiscuitProduct = new Product { SKU = BiscuitSKU };
+        private static readonly QuantitySpecialOffer biscuitCountOf2SpecialOffer = new QuantitySpecialOffer(BiscuitSKU, QuantityOf2, SpecialOfferPriceOf45);
 
         [Fact]
         public void ApplyWhenQuantityAndProductMatches()
         {
-            var quantitySpecialOffer = new QuantitySpecialOffer(BiscuitSKU, QuantityOf2, UnitPriceOf45);
-
             var scannedItems = CreateScannedItemList(BiscuitProduct, BiscuitProduct);
 
-            quantitySpecialOffer.DoesSpecialOfferApply(scannedItems).Should().BeTrue();
+            biscuitCountOf2SpecialOffer.DoesSpecialOfferApply(scannedItems).Should().BeTrue();
         }
 
         [Fact]
         public void DoesNotApplyWhenQuantityDoesNotMatch()
         {
-            var quantitySpecialOffer = new QuantitySpecialOffer(BiscuitSKU, QuantityOf2, UnitPriceOf45);
-
             var scannedItems = CreateScannedItemList(BiscuitProduct);
 
-            quantitySpecialOffer.DoesSpecialOfferApply(scannedItems).Should().BeFalse();
+            biscuitCountOf2SpecialOffer.DoesSpecialOfferApply(scannedItems).Should().BeFalse();
         }
 
-        private List<Product> CreateScannedItemList(params Product[] products)
+        [Fact]
+        public void ReturnCorrectAppliedDiscount()
+        {
+            var scannedItems = CreateScannedItemList(BiscuitProduct, BiscuitProduct);
+
+            var appliedDiscount = biscuitCountOf2SpecialOffer.ApplySpecialOffer(scannedItems);
+
+            appliedDiscount.OfferPrice.Should().Be(SpecialOfferPriceOf45);
+            appliedDiscount.ProductsWithoutOffersApplied.Should().BeEmpty();
+        }
+
+        private static List<Product> CreateScannedItemList(params Product[] products)
         {
             return products.ToList();
         }
