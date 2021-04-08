@@ -9,6 +9,7 @@ namespace CheckoutTests
     {
         private const int A99UnitPrice = 50;
         private const int B15UnitPrice = 30;
+        private const int B15QuantityOf2SpecialOfferPrice = 45;
 
         private readonly Checkout.Checkout _checkout;
 
@@ -41,6 +42,19 @@ namespace CheckoutTests
             var totalPrice = _checkout.CalculateTotalPrice();
 
             var expectedTotalPrice = A99UnitPrice + B15UnitPrice;
+            totalPrice.Should().Be(expectedTotalPrice);
+        }
+
+        [Fact]
+        public void CalculateTotalPriceApplyingSpecialOffers()
+        {
+            _checkout.ScanProduct("B15");
+            _checkout.ScanProduct("A99");
+            _checkout.ScanProduct("B15");
+
+            var totalPrice = _checkout.CalculateTotalPrice();
+
+            var expectedTotalPrice = A99UnitPrice + B15QuantityOf2SpecialOfferPrice;
             totalPrice.Should().Be(expectedTotalPrice);
         }
     }
