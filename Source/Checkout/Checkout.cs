@@ -5,14 +5,20 @@ namespace Checkout
 {
     public class Checkout
     {
-        public void ScanProduct(string sku)
+        private readonly ProductRepository productRepository;
+
+        public Checkout(ProductRepository productRepository)
         {
-            throw new NotImplementedException();
+            ScannedProductList = new List<Product>();
+            this.productRepository = productRepository;
         }
 
-        public List<Product> ScannedProductList()
+        public void ScanProduct(string sku)
         {
-            throw new NotImplementedException();
+            var product = productRepository.GetProductBySKU(sku);
+            ScannedProductList.Add(product);
         }
+
+        public List<Product> ScannedProductList { get; private set; }
     }
 }

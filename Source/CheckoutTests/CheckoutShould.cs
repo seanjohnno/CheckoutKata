@@ -1,3 +1,4 @@
+using Checkout;
 using FluentAssertions;
 using System.Linq;
 using Xunit;
@@ -10,7 +11,8 @@ namespace CheckoutTests
 
         public CheckoutShould()
         {
-            _checkout = new Checkout.Checkout();
+            var productRepository = new ProductRepository();
+            _checkout = new Checkout.Checkout(productRepository);
         }
 
         [Fact]
@@ -18,8 +20,7 @@ namespace CheckoutTests
         {
             _checkout.ScanProduct("A99");
 
-            var productList = _checkout.ScannedProductList();
-            var scannedProduct = productList.First();
+            var scannedProduct = _checkout.ScannedProductList.First();
 
             scannedProduct.SKU.Should().Be("A99");
             scannedProduct.UnitPrice.Should().Be(50);
