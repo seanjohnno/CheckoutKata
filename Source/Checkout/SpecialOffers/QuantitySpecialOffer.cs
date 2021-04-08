@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Checkout.SpecialOffers
@@ -19,7 +20,7 @@ namespace Checkout.SpecialOffers
 
         public bool DoesSpecialOfferApply(List<Product> scannedProducts)
         {
-            throw new NotImplementedException();
+            return scannedProducts.Where(p => p.SKU == _productSKU).Count() >= _appliedAtQuantity;
         }
     }
 }
