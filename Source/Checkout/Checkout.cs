@@ -20,5 +20,10 @@ namespace Checkout
         }
 
         public List<Product> ScannedProductList { get; private set; }
+
+        public int CalculateTotalPrice()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
